@@ -6,7 +6,7 @@ public class MultiStack {
 
 	private final Stack stacks;
 
-	private static RW lock = new RW();
+	private RW lock = new RW();
 
 	public MultiStack() {
 		stacks = new Stack(1);
@@ -78,41 +78,6 @@ public class MultiStack {
 			e.printStackTrace();
 		}
 		return Integer.MIN_VALUE;
-	}
-
-	//aus der Zentralübung
-	public static class RW {
-		private int countReaders;
-
-		public RW() {
-			countReaders = 0;
-		}
-
-		public synchronized void startRead() throws InterruptedException {
-			while (countReaders < 0) {
-				wait();
-			}
-			countReaders++;
-		}
-
-		public synchronized void endRead() {
-			countReaders--;
-			if (countReaders == 0) {
-				notify();
-			}
-		}
-
-		public synchronized void startWrite() throws InterruptedException {
-			while (countReaders != 0) {
-				wait();
-			}
-			countReaders = -1;
-		}
-
-		public synchronized void endWrite() {
-			countReaders = 0;
-			notifyAll();
-		}
 	}
 
 	@Override
