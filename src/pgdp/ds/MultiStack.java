@@ -6,10 +6,11 @@ public class MultiStack {
 
 	private final Stack stacks;
 
-	private RW lock = new RW();
+	private RW lock;
 
 	public MultiStack() {
 		stacks = new Stack(1);
+		lock = new RW();
 	}
 
 	public void push(int val) {
