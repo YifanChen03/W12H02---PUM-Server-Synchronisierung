@@ -6,7 +6,7 @@ public class MultiStack {
 
 	private final Stack stacks;
 
-	private RW lock = new RW();
+	private static RW lock = new RW();
 
 	public MultiStack() {
 		stacks = new Stack(1);
@@ -81,7 +81,7 @@ public class MultiStack {
 	}
 
 	//aus der Zentralübung
-	public class RW {
+	public static class RW {
 		private int countReaders = 0;
 
 		public synchronized void startRead() throws InterruptedException {
