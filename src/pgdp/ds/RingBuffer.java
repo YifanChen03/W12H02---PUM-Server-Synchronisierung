@@ -26,20 +26,22 @@ public class RingBuffer {
 
 	public void put(int val) throws InterruptedException {
 		if (isFull()) {
-			return;
+			wait();
 		}
 		mem[in++] = val;
 		in %= mem.length;
+		notifyAll();
 		stored++;
 	}
 
 	public int get() throws InterruptedException {
 		if (isEmpty()) {
-			return Integer.MIN_VALUE;
+			wait();
 		}
 		int val = mem[out++];
 		out %= mem.length;
 		stored--;
+		notifyAll();
 		return val;
 	}
 
