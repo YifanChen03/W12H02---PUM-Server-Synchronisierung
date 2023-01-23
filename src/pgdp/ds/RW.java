@@ -2,11 +2,7 @@ package pgdp.ds;
 
 //aus der Zentralübung
 public class RW {
-    private int countReaders;
-
-    public RW(int n) {
-        countReaders = n;
-    }
+    private int countReaders = 0;
 
     public synchronized void startRead() throws InterruptedException {
         while (countReaders < 0) {
