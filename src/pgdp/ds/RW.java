@@ -4,8 +4,8 @@ package pgdp.ds;
 public class RW {
     private int countReaders;
 
-    public RW() {
-        countReaders = 0;
+    public RW(int n) {
+        countReaders = n;
     }
 
     public synchronized void startRead() throws InterruptedException {

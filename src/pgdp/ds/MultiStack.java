@@ -10,7 +10,7 @@ public class MultiStack {
 
 	public MultiStack() {
 		stacks = new Stack(1);
-		lock = new RW();
+		lock = new RW(0);
 	}
 
 	public void push(int val) {
