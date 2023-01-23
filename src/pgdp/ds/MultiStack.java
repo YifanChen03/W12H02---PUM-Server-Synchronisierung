@@ -82,7 +82,11 @@ public class MultiStack {
 
 	//aus der Zentralübung
 	public static class RW {
-		private int countReaders = 0;
+		private int countReaders;
+
+		public RW() {
+			countReaders = 0;
+		}
 
 		public synchronized void startRead() throws InterruptedException {
 			while (countReaders < 0) {
