@@ -26,23 +26,31 @@ public class RingBuffer {
 
 	public void put(int val) throws InterruptedException {
 		if (isFull()) {
-			wait();
+			synchronized (this) {
+				wait();
+			}
 		}
-		mem[in++] = val;
-		in %= mem.length;
-		notifyAll();
-		stored++;
+		synchronized (this) {
+			mem[in++] = val;
+			in %= mem.length;
+			notifyAll();
+			stored++;
+		}
 	}
 
 	public int get() throws InterruptedException {
 		if (isEmpty()) {
-			wait();
+			synchronized (this) {
+				wait();
+			}
 		}
-		int val = mem[out++];
-		out %= mem.length;
-		stored--;
-		notifyAll();
-		return val;
+		synchronized (this) {
+			int val = mem[out++];
+			out %= mem.length;
+			stored--;
+			notifyAll();
+			return val;
+		}
 	}
 
 	@Override
