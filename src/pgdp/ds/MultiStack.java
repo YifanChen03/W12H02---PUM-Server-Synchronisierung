@@ -6,7 +6,7 @@ public class MultiStack {
 
 	private final Stack stacks;
 
-	private RW lock;
+	private final RW lock;
 
 	public MultiStack() {
 		stacks = new Stack(1);
