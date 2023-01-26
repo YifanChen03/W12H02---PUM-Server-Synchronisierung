@@ -1,84 +1,43 @@
 package pgdp.ds;
 
-import java.util.concurrent.Semaphore;
-
 public class MultiStack {
 
 	private final Stack stacks;
 
-	private final RW lock;
-
 	public MultiStack() {
 		stacks = new Stack(1);
-		lock = new RW();
 	}
 
 	public void push(int val) {
-		try {
-			lock.startWrite();
-			stacks.push(val);
-			lock.endWrite();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		stacks.push(val);
 	}
 
 	public int pop() {
-		try {
-			lock.startWrite();
-			if (stacks.isEmpty()) {
-				lock.endWrite();
-				return Integer.MIN_VALUE;
-			}
-			int temp = stacks.pop();
-			lock.endWrite();
-			return temp;
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (stacks.isEmpty()) {
+			return Integer.MIN_VALUE;
 		}
-		return Integer.MIN_VALUE;
+		return stacks.pop();
 	}
 
 	public int top() {
-		try {
-			lock.startRead();
-			if (stacks.isEmpty()) {
-				return Integer.MIN_VALUE;
-			}
-			lock.endRead();
-			return stacks.top();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (stacks.isEmpty()) {
+			return Integer.MIN_VALUE;
 		}
-		return Integer.MIN_VALUE;
+		return stacks.top();
 	}
 
 	public int size() {
-		try {
-			lock.startRead();
-			if (stacks.isEmpty()) {
-				return 0;
-			}
-			lock.endRead();
-			return stacks.size();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (stacks.isEmpty()) {
+			return 0;
 		}
-		return Integer.MIN_VALUE;
+		return stacks.size();
 	}
 
 	public int search(int element) {
-		try {
-			lock.startRead();
-			if (stacks.isEmpty()) {
-				return -1;
-			}
-			lock.endRead();
-			return stacks.search(element);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (stacks.isEmpty()) {
+			return -1;
 		}
-		return Integer.MIN_VALUE;
+		return stacks.search(element);
 	}
 
 	@Override
