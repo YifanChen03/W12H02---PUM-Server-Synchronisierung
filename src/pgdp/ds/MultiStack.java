@@ -1,47 +1,84 @@
 package pgdp.ds;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 public class MultiStack {
 
 	private final Stack stacks;
+	private final ReadWriteLock RWLock = new ReentrantReadWriteLock();
+	private final Lock readLock = RWLock.readLock();
+	private final Lock writeLock = RWLock.writeLock();
 
 	public MultiStack() {
 		stacks = new Stack(1);
 	}
 
 	public void push(int val) {
-		stacks.push(val);
+		writeLock.lock();
+		try {
+			stacks.push(val);
+		} finally {
+			writeLock.unlock();
+		}
 	}
 
 	public int pop() {
-		if (stacks.isEmpty()) {
-			return Integer.MIN_VALUE;
+		writeLock.lock();
+		try {
+			if (stacks.isEmpty()) {
+				return Integer.MIN_VALUE;
+			}
+			return stacks.pop();
+		} finally {
+			writeLock.unlock();
 		}
-		return stacks.pop();
 	}
 
 	public int top() {
-		if (stacks.isEmpty()) {
-			return Integer.MIN_VALUE;
+		readLock.lock();
+		try {
+			if (stacks.isEmpty()) {
+				return Integer.MIN_VALUE;
+			}
+			return stacks.top();
+		} finally {
+			readLock.unlock();
 		}
-		return stacks.top();
 	}
 
 	public int size() {
-		if (stacks.isEmpty()) {
-			return 0;
+		readLock.lock();
+		try {
+			if (stacks.isEmpty()) {
+				return 0;
+			}
+			return stacks.size();
+		} finally {
+			readLock.unlock();
 		}
-		return stacks.size();
 	}
 
 	public int search(int element) {
-		if (stacks.isEmpty()) {
-			return -1;
+		readLock.lock();
+		try {
+			if (stacks.isEmpty()) {
+				return -1;
+			}
+			return stacks.search(element);
+		} finally {
+			readLock.unlock();
 		}
-		return stacks.search(element);
 	}
 
 	@Override
 	public String toString() {
-		return stacks.toString();
+		readLock.lock();
+		try {
+			return stacks.toString();
+		} finally {
+			readLock.unlock();
+		}
 	}
 }
