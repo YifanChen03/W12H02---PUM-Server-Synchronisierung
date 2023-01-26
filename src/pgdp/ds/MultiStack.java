@@ -8,7 +8,7 @@ public class MultiStack {
 
 	private final Stack stacks;
 	private final ReadWriteLock RWLock = new ReentrantReadWriteLock();
-	private final Lock readLock = RWLock.readLock();
+	private final Lock readLock = RWLock.readLock(); //code von javadocs
 	private final Lock writeLock = RWLock.writeLock();
 
 	public MultiStack() {

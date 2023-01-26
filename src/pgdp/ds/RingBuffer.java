@@ -9,7 +9,7 @@ public class RingBuffer {
 	private int in;
 	private int out;
 	private int stored;
-	private Semaphore free;
+	private Semaphore free; //code von ZÜ 2
 	private Semaphore occupied;
 
 	public RingBuffer(int capacity) {
